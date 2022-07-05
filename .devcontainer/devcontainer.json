@@ -1,0 +1,18 @@
+{
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "node",
+  "workspaceFolder": "/workspaces/node-data-space",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "visualstudioexptteam.vscodeintellicode"
+      ]
+    }
+  },
+  "forwardPorts": [3000]
+}

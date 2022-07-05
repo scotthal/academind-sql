@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sleep infinity
+    volumes:
+      - ..:/workspaces/node-data-space
+    ports:
+      - "3000:3000"
+    networks:
+      - node-data
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=noprod
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - node-data
+volumes:
+  pgdata:
+networks:
+  node-data:
+    driver: bridge
