@@ -17,4 +17,19 @@ router.get("/new-post", async (req, res) => {
   res.render("create-post", { authors: result.rows });
 });
 
+router.post("/posts", async (req, res) => {
+  const query = `INSERT INTO posts
+    (title, summary, body, author_id)
+    VALUES
+    ($1, $2, $3, $4)`;
+  const values = [
+    req.body.title,
+    req.body.summary,
+    req.body.content,
+    req.body.author,
+  ];
+  await db.query(query, values);
+  res.redirect("/posts");
+});
+
 module.exports = router;
