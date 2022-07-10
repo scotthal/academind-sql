@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <%- include('includes/head', { title: 'All Posts' }) %>
+    <link rel="stylesheet" href="/styles/posts.css" />
+  </head>
 
-<head>
-  <%- include('includes/head', { title: 'All Posts' }) %>
-  <link rel="stylesheet" href="/styles/posts.css">
-</head>
-
-<body>
-  <%- include('includes/header') %>
-  <main id="all-posts">
-    <h1>All Posts</h1>
-   
-  </main> 
-</body>
-
+  <body>
+    <%- include('includes/header') %>
+    <main id="all-posts">
+      <h1>All Posts</h1>
+      <!-- prettier-ignore -->
+      <ol>
+        <% for (const post of posts) { %>
+          <li>
+            <h2><%= post.title %></h2>
+            <h3><%= post.name %> (<%= post.email %>)</h3>
+            <h4><%= post.summary %></h4>
+            <div><%= post.body %></div>
+          </li>
+        <% } %>
+      </ol>
+    </main>
+  </body>
 </html>
