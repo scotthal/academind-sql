@@ -113,4 +113,15 @@ router.post("/update-post/:id", async (req, res) => {
   res.redirect("/posts");
 });
 
+router.get("/delete-post/:id", async (req, res) => {
+  const postId = parseInt(req.params.id);
+  if (isNaN(postId)) {
+    return res.status(404).render("404");
+  }
+
+  await db.query("DELETE FROM posts WHERE id = $1", [postId]);
+
+  res.redirect("/posts");
+});
+
 module.exports = router;
