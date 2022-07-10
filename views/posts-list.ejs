@@ -10,13 +10,10 @@
     <main id="all-posts">
       <h1>All Posts</h1>
       <!-- prettier-ignore -->
-      <ol>
+      <ol id="posts-list">
         <% for (const post of posts) { %>
           <li>
-            <h2><%= post.title %></h2>
-            <h3><%= post.name %></h3>
-            <h4><%= post.summary %></h4>
-            <div><%= post.body %></div>
+            <%- include("includes/post-item", { post: post }); %>
           </li>
         <% } %>
       </ol>
