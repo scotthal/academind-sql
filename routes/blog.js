@@ -73,4 +73,44 @@ router.get("/post/:id", async (req, res) => {
   res.render("post-detail", { post: result.rows[0] });
 });
 
+router.get("/update-post/:id", async (req, res) => {
+  const postId = parseInt(req.params.id);
+  if (isNaN(postId)) {
+    return res.status(404).render("404");
+  }
+
+  const query = `SELECT
+    posts.id AS post_id,
+    posts.title AS title,
+    posts.summary AS summary,
+    posts.body AS body
+    FROM posts
+    WHERE posts.id = $1`;
+  const values = [postId];
+  const result = await db.query(query, values);
+  if (result.rows.length !== 1) {
+    return res.status(404).render("404");
+  }
+  res.render("update-post", { post: result.rows[0] });
+});
+
+router.post("/update-post/:id", async (req, res) => {
+  const postId = parseInt(req.params.id);
+  if (isNaN(postId)) {
+    return res.status(404).render("404");
+  }
+
+  const query = `UPDATE posts
+    SET
+      title = $1,
+      summary = $2,
+      body = $3
+    WHERE
+      id = $4
+  `;
+  const values = [req.body.title, req.body.summary, req.body.content, postId];
+  await db.query(query, values);
+  res.redirect("/posts");
+});
+
 module.exports = router;
