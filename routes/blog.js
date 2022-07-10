@@ -14,6 +14,10 @@ router.get("/posts", async (req, res) => {
     ORDER BY date DESC
     LIMIT 10;`;
   const result = await db.query(query);
+  if (result.rows.length === 0) {
+    res.redirect("/new-post");
+    return;
+  }
   res.render("posts-list", { posts: result.rows });
 });
 
