@@ -9,7 +9,14 @@ router.get("/", (req, res) => {
 });
 
 router.get("/posts", async (req, res) => {
-  const query = `SELECT * FROM posts
+  const query = `SELECT
+    posts.id AS post_id,
+    posts.title AS title,
+    posts.summary AS summary,
+    posts.body AS body,
+    posts.date AS date,
+    authors.name AS author_name
+    FROM posts
     JOIN authors ON posts.author_id = authors.id
     ORDER BY date DESC
     LIMIT 10;`;
@@ -39,6 +46,31 @@ router.post("/posts", async (req, res) => {
   ];
   await db.query(query, values);
   res.redirect("/posts");
+});
+
+router.get("/post/:id", async (req, res) => {
+  const postId = parseInt(req.params.id);
+  if (isNaN(postId)) {
+    return res.status(404).render("404");
+  }
+
+  const query = `SELECT
+    posts.id AS post_id,
+    posts.title AS title,
+    posts.summary AS summary,
+    posts.body AS body,
+    posts.date AS date,
+    authors.name AS author_name,
+    authors.email AS author_email
+    FROM posts
+    JOIN authors ON posts.author_id = authors.id
+    WHERE posts.id = $1`;
+  const values = [postId];
+  const result = await db.query(query, values);
+  if (result.rows.length !== 1) {
+    return res.status(404).render("404");
+  }
+  res.render("post-detail", { post: result.rows[0] });
 });
 
 module.exports = router;
