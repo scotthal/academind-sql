@@ -11,7 +11,8 @@ router.get("/", (req, res) => {
 router.get("/posts", async (req, res) => {
   const query = `SELECT * FROM posts
     JOIN authors ON posts.author_id = authors.id
-    ORDER BY date DESC;`;
+    ORDER BY date DESC
+    LIMIT 10;`;
   const result = await db.query(query);
   res.render("posts-list", { posts: result.rows });
 });
